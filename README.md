@@ -1,4 +1,4 @@
-# Mercado Livre Laravel
+# Laravel Shopee
 
 <h4>A package to connect to Shopee API</h4>
 
