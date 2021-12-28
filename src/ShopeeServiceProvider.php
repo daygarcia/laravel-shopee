@@ -1,6 +1,6 @@
 <?php
 
-namespace DayGarcia\LaravelShopee;
+namespace LaravelShopee;
 
 use Illuminate\Support\ServiceProvider;
 use DayGarcia\LaravelShopee\MercadoLivre;
