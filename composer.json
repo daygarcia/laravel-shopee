@@ -1,0 +1,18 @@
+{
+    "name": "daygarcia/laravel-shopee",
+    "description": "A laravel package to consume Shopee OpenAPI  V2.0",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "LaravelShopee\\": "vendor/daygarcia/laravel-shopee/src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dayanne Garcia",
+            "email": "48609156+DayGarcia@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
