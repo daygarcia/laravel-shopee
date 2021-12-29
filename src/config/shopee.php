@@ -13,13 +13,14 @@ return [
     |
     */
 
-    'partner_id'    => env('SHOPEE_APP_ID'),
-    'key'           => env('SHOPEE_CLIENT_SECRET'),
+    'partner_id'    => env('SHOPEE_PARTNER_ID'),
+    'key'           => env('SHOPEE_KEY'),
     'redirect'      => 'https://500b-177-95-229-183.ngrok.io/shopee/callback',
     'site_id'       => env('SHOPEE_SITE_ID'),
     'sandbox'       => env('SHOPEE_SANDBOX', true),
+    'language'      => 'pt-br',
     'host' => [
-        'production_url'  => 'https://partner.shopeemobile.com/api/v2/',
-        'sandbox_url'     => 'https://partner.test-stable.shopeemobile.com/api/v2/',
+        'production'  => 'https://partner.shopeemobile.com/api/v2/',
+        'sandbox'     => 'https://partner.test-stable.shopeemobile.com/api/v2/',
     ],
 ];
