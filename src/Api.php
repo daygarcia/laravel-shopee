@@ -2,50 +2,77 @@
 
 namespace LaravelShopee;
 
-use Illuminate\Http\UploadedFile;
+// use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 
 class Api
 {
-    private $url;
-    public function __construct()
+    public function get(Configuration $configuration, string $path, array $query = null): array
     {
-        $this->url = config('shopee.sandbox') ? config('shopee.host.sandbox') : config('shopee.host.production');
+        $signature = new Signature(
+            $configuration->getPartnerId(),
+            $configuration->getShopId(),
+            $configuration->getKey(),
+            $path
+        );
+        $signature->signRequest();
+
+        return Http::withToken($configuration->getAccessToken())->get($signature->getSignedUrl(), $query)->throw()->json();
     }
 
-    public function get(String $access_token, String $path, array $query = null): array
+    public function post(Configuration $configuration, string $path, array $data): array
     {
-        return Http::withToken($access_token)->get($this->url . $path, $query)->throw()->json();
+        $signature = new Signature(
+            $configuration->getPartnerId(),
+            $configuration->getShopId(),
+            $configuration->getKey(),
+            $path
+        );
+        $signature->signRequest();
+
+        return Http::withToken($configuration->getAccessToken())->post($signature->getSignedUrl(), $data)->throw()->json();
     }
 
-    public function post(string $access_token, string $path, $data): array
+    public function put(Configuration $configuration, string $path, $data): array
     {
-        return Http::withToken($access_token)->post($this->url . $path, $data)->throw()->json();
+        $signature = new Signature(
+            $configuration->getPartnerId(),
+            $configuration->getShopId(),
+            $configuration->getKey(),
+            $path
+        );
+        $signature->signRequest();
+
+        return Http::withToken($configuration->getAccessToken())->put($signature->getSignedUrl(), $data)->throw()->json();
     }
 
-    public function put(string $access_token, string $path, $data): array
+    public function delete(Configuration $configuration, $path): array
     {
-        return Http::withToken($access_token)->put($this->url . $path, $data)->throw()->json();
+        $signature = new Signature(
+            $configuration->getPartnerId(),
+            $configuration->getShopId(),
+            $configuration->getKey(),
+            $path
+        );
+        $signature->signRequest();
+
+        return Http::withToken($configuration->getAccessToken())->delete($signature->getSignedUrl())->throw()->json();
     }
 
-    public function delete(string $access_token, $path): array
+    // to implement in case of need
+    /* public function upload(Configuration $configuration, string $path, UploadedFile $file): array
     {
-        return Http::withToken($access_token)->delete($this->url . $path)->throw()->json();
-    }
-
-    public function upload(string $access_token, string $path, UploadedFile $file): array
-    {
-        return Http::withToken($access_token)->attach(
+        return Http::withToken($configuration->getAccessToken())->attach(
             'file',
             file_get_contents($file),
             $file->getClientOriginalName()
         )->post($this->url . $path)->throw()->json();
     }
 
-    public function download(string $access_token, string $path)
+    public function download(Configuration $configuration, string $path)
     {
-        return Http::withToken($access_token)->withHeaders([
+        return Http::withToken($configuration->getAccessToken())->withHeaders([
             'Content-Type' => 'text/plain',
         ])->get($this->url . $path)->body();
-    }
+    } */
 }
