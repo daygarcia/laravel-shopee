@@ -8,15 +8,26 @@ use LaravelShopee\Configuration;
 
 class CategoryApi extends Api
 {
-    // construct
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
     }
 
-    public function getCategories(): array
+    public function getCategories(string $language = null): array
     {
-        $url = 'product/get_category';
-        return $this->get($this->configuration->getAccessToken(), $url);
+        $query = [
+            'language' => $language ?? config('shopee.language'),
+        ];
+        $path = 'product/get_category';
+        return $this->get($this->configuration, $path, $query);
+    }
+
+    public function getCategoryRecommendByItemName(string $item_name): array
+    {
+        $query = [
+            'item_name ' => $item_name,
+        ];
+        $path = 'product/category_recommend';
+        return $this->get($this->configuration, $path, $query);
     }
 }
