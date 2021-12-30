@@ -11,8 +11,9 @@ class Api
 {
     public function get(Configuration $configuration, string $path, array $query = null): array
     {
-        $response = Http::withToken($configuration->getAccessToken())->get($this->getSignedUrl($configuration, $path) . http_build_query($query))->throw()->json();
-        if (isset($response['error'])) {
+
+        $response = Http::withToken($configuration->getAccessToken())->get($this->getSignedUrl($configuration, $path) . '&' . http_build_query($query))->throw()->json();
+        if (!empty($response['error'])) {
             throw new \Exception($response['error']['message'], 500);
         }
         return $response;
@@ -21,7 +22,7 @@ class Api
     public function post(Configuration $configuration, string $path, array $data): array
     {
         $response = Http::withToken($configuration->getAccessToken())->post($this->getSignedUrl($configuration, $path), $data)->throw()->json();
-        if (isset($response['error'])) {
+        if (!empty($response['error'])) {
             throw new \Exception($response['error']['message'], 500);
         }
         return $response;
@@ -30,7 +31,7 @@ class Api
     public function put(Configuration $configuration, string $path, $data): array
     {
         $response = Http::withToken($configuration->getAccessToken())->put($this->getSignedUrl($configuration, $path), $data)->throw()->json();
-        if (isset($response['error'])) {
+        if (!empty($response['error'])) {
             throw new \Exception($response['error']['message'], 500);
         }
         return $response;
@@ -39,7 +40,7 @@ class Api
     public function delete(Configuration $configuration, $path): array
     {
         $response = Http::withToken($configuration->getAccessToken())->delete($this->getSignedUrl($configuration, $path))->throw()->json();
-        if (isset($response['error'])) {
+        if (!empty($response['error'])) {
             throw new \Exception($response['error']['message'], 500);
         }
         return $response;
@@ -52,7 +53,7 @@ class Api
             file_get_contents($file),
             $file->getClientOriginalName()
         )->post($this->getSignedUrl($configuration, $path))->throw()->json();
-        if (isset($response['error'])) {
+        if (!empty($response['error'])) {
             throw new \Exception($response['error']['message'], 500);
         }
         return $response;
@@ -63,7 +64,7 @@ class Api
         $response = Http::withToken($configuration->getAccessToken())->withHeaders([
             'Content-Type' => 'text/plain',
         ])->get($this->getSignedUrl($configuration, $path))->body();
-        if (isset($response['error'])) {
+        if (!empty($response['error'])) {
             throw new \Exception($response['error']['message'], 500);
         }
         return $response;
