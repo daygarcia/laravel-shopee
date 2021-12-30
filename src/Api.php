@@ -11,38 +11,62 @@ class Api
 {
     public function get(Configuration $configuration, string $path, array $query = null): array
     {
-        return Http::withToken($configuration->getAccessToken())->get($this->getSignedUrl($configuration, $path), $query)->throw()->json();
+        $response = Http::withToken($configuration->getAccessToken())->get($this->getSignedUrl($configuration, $path), $query)->throw()->json();
+        if (isset($response['error'])) {
+            throw new \Exception($response['error']['message'], 500);
+        }
+        return $response;
     }
 
     public function post(Configuration $configuration, string $path, array $data): array
     {
-        return Http::withToken($configuration->getAccessToken())->post($this->getSignedUrl($configuration, $path), $data)->throw()->json();
+        $response = Http::withToken($configuration->getAccessToken())->post($this->getSignedUrl($configuration, $path), $data)->throw()->json();
+        if (isset($response['error'])) {
+            throw new \Exception($response['error']['message'], 500);
+        }
+        return $response;
     }
 
     public function put(Configuration $configuration, string $path, $data): array
     {
-        return Http::withToken($configuration->getAccessToken())->put($this->getSignedUrl($configuration, $path), $data)->throw()->json();
+        $response = Http::withToken($configuration->getAccessToken())->put($this->getSignedUrl($configuration, $path), $data)->throw()->json();
+        if (isset($response['error'])) {
+            throw new \Exception($response['error']['message'], 500);
+        }
+        return $response;
     }
 
     public function delete(Configuration $configuration, $path): array
     {
-        return Http::withToken($configuration->getAccessToken())->delete($this->getSignedUrl($configuration, $path))->throw()->json();
+        $response = Http::withToken($configuration->getAccessToken())->delete($this->getSignedUrl($configuration, $path))->throw()->json();
+        if (isset($response['error'])) {
+            throw new \Exception($response['error']['message'], 500);
+        }
+        return $response;
     }
 
     public function upload(Configuration $configuration, string $path, UploadedFile $file): array
     {
-        return Http::withToken($configuration->getAccessToken())->attach(
+        $response = Http::withToken($configuration->getAccessToken())->attach(
             'file',
             file_get_contents($file),
             $file->getClientOriginalName()
         )->post($this->getSignedUrl($configuration, $path))->throw()->json();
+        if (isset($response['error'])) {
+            throw new \Exception($response['error']['message'], 500);
+        }
+        return $response;
     }
 
     public function download(Configuration $configuration, string $path)
     {
-        return Http::withToken($configuration->getAccessToken())->withHeaders([
+        $response = Http::withToken($configuration->getAccessToken())->withHeaders([
             'Content-Type' => 'text/plain',
         ])->get($this->getSignedUrl($configuration, $path))->body();
+        if (isset($response['error'])) {
+            throw new \Exception($response['error']['message'], 500);
+        }
+        return $response;
     }
 
     public function getSignedUrl(Configuration $configuration, string $path)

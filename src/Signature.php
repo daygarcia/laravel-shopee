@@ -76,6 +76,8 @@ class Signature
             'partner_id' => $this->partner_id,
             'timestamp' => $this->timestamp,
             'sign' => $this->signature,
+            'shop_id' => $this->shop_id,
+            'access_token' => $this->access_token,
         ]);
 
         return $this->url . $this->path . "?{$query}";
