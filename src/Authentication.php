@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelMagalu;
+namespace LaravelShopee;
 
 use Illuminate\Support\Facades\Http;
 use LaravelShopee\AuthenticationSignature;
