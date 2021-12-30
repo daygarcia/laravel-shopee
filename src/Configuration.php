@@ -3,7 +3,7 @@
 
 namespace LaravelShopee;
 
-use LaravelMagalu\Authentication;
+use LaravelShopee\Authentication;
 
 class Configuration
 {
