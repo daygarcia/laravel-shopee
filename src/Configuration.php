@@ -19,12 +19,11 @@ class Configuration
 
     public function __construct(array $config)
     {
-        $this->partner_id = $config['partner_id'] ?? null;
-        $this->key = $config['key'] ?? null;
-        $this->redirect = $config['redirect'] ?? null;
+        $this->partner_id = $config['partner_id'] ?? config('shopee.partner_id');
+        $this->key = $config['key'] ?? config('shopee.key');
+        $this->redirect = $config['redirect'] ?? config('shopee.redirect');
         $this->code = $config['code'] ?? null;
-        $this->shop_id = $config['shop_id'] ?? null;
-        $this->main_account_id = $config['main_account_id'] ?? null;
+        $this->shop_id = $config['shop_id'] ?? config('shopee.shop_id');
         $this->access_token = $config['access_token'] ?? null;
 
         empty($this->access_token) ? $this->authorize() : null;
