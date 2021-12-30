@@ -50,7 +50,9 @@ class Api
         $signature = new Signature(
             $configuration->getPartnerId(),
             $configuration->getKey(),
-            $path
+            $path,
+            $configuration->getAccessToken(),
+            $configuration->getShopId()
         );
         $signature->signRequest();
 

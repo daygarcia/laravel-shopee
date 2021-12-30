@@ -2,40 +2,38 @@
 
 namespace LaravelShopee;
 
-
-class Signature
-
 /* 
-    * @description: This class is used to generate the signature for all requests
-    * except the authentication, the request signature logic is on AuthenticationSignature class
+    * @description: This class is used to generate the signature for the authentication 
+    * the signature is used to authenticate the request to the Shopee API
+    * then, retrieve the access token and refresh token
 */
+
+class AuthenticationSignature
 {
     private $partner_id;
     private $key;
     private $path;
     private $timestamp;
     private $signature;
-    private $access_token;
-    private $shop_id;
     private $base_path = '/api/v2/';
 
-    public function __construct($partner_id, $key, $path, $access_token, $shop_id)
+    public function __construct($partner_id, $key, $path)
     {
         $this->url = config('shopee.sandbox') ? config('shopee.host.sandbox') : config('shopee.host.production');
         $this->partner_id = $partner_id;
         $this->key = $key;
-        $this->access_token = $access_token;
-        $this->shop_id = $shop_id;
         $this->path = "{$this->base_path}{$path}";
-
         $this->timestamp = time();
     }
 
     public function signRequest()
     {
-        $base_str = "{$this->partner_id}{$this->path}{$this->timestamp}{$this->access_token}{$this->shop_id}";
+        $partner_id = $this->partner_id;
+        $key = $this->key;
+        $path = $this->path;
+        $base_str = "{$partner_id}{$path}{$this->timestamp}";
 
-        $this->signature = hash_hmac('sha256', $base_str, $this->key);
+        $this->signature = hash_hmac('sha256', $base_str, $key);
 
         return $this->signature;
     }

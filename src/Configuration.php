@@ -3,6 +3,8 @@
 
 namespace LaravelShopee;
 
+use LaravelMagalu\Authentication;
+
 class Configuration
 {
     private $partner_id;
@@ -31,12 +33,18 @@ class Configuration
     public function authorize(): array
     {
         try {
-            $api = new Api();
-            $response = $api->post($this, $this->auth_path, [
+            $body = [
                 'code'           => $this->code,
                 'shop_id'        => intval($this->shop_id),
                 'partner_id'     => intval($this->partner_id),
-            ]);
+            ];
+            $authentication = new Authentication();
+            $response = $authentication->authenticate(
+                $this,
+                $this->auth_path,
+                $body
+            );
+
             $this->access_token = $response['access_token'];
             $this->refresh_token = $response['refresh_token'];
         } catch (\Exception $e) {
