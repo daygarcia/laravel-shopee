@@ -20,7 +20,7 @@ return [
     'sandbox'       => env('SHOPEE_SANDBOX', true),
     'language'      => 'pt-br',
     'host' => [
-        'production'  => 'https://partner.shopeemobile.com/api/v2/',
-        'sandbox'     => 'https://partner.test-stable.shopeemobile.com/api/v2/',
+        'production'  => 'https://partner.shopeemobile.com',
+        'sandbox'     => 'https://partner.test-stable.shopeemobile.com',
     ],
 ];

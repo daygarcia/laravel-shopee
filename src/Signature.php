@@ -7,18 +7,17 @@ use DateTime;
 class Signature
 {
     private $partner_id;
-    private $shop_id;
     private $key;
     private $path;
     private $timestamp;
+    private $base_path = '/api/v2/';
 
-    public function __construct($partner_id, $shop_id, $key, $path)
+    public function __construct($partner_id, $key, $path)
     {
         $this->url = config('shopee.sandbox') ? config('shopee.host.sandbox') : config('shopee.host.production');
         $this->partner_id = $partner_id;
-        $this->shop_id = $shop_id;
         $this->key = $key;
-        $this->path = $path;
+        $this->path = "{$this->base_path}{$path}";
         $date = new DateTime();
         $this->timestamp = $date->getTimestamp();
     }
@@ -26,10 +25,9 @@ class Signature
     public function signRequest()
     {
         $partner_id = $this->partner_id;
-        $shop_id = $this->shop_id;
         $secret_key = $this->key;
         $path = $this->path;
-        $base_str = $partner_id . $path . $this->timestamp . $shop_id;
+        $base_str = "{$partner_id}{$path}{$this->timestamp}";
         $signature = hash_hmac('sha256', $base_str, $secret_key);
 
         return $signature;
