@@ -8,20 +8,18 @@ class Configuration
     private $partner_id;
     private $key;
     private $redirect;
-    private $site_id;
     private $access_token;
     private $url;
     private $code;
     private $shop_id;
-    private $main_account_id;
-    private $auth_path = '/api/v2/auth/access_token/get';
+    private $refresh_token;
+    private $auth_path = 'auth/token/get/';
 
     public function __construct(array $config)
     {
         $this->partner_id = $config['partner_id'] ?? null;
         $this->key = $config['key'] ?? null;
         $this->redirect = $config['redirect'] ?? null;
-        $this->site_id = $config['site_id'] ?? null;
         $this->code = $config['code'] ?? null;
         $this->shop_id = $config['shop_id'] ?? null;
         $this->main_account_id = $config['main_account_id'] ?? null;
@@ -35,16 +33,16 @@ class Configuration
         try {
             $api = new Api();
             $response = $api->post($this, $this->auth_path, [
-                'code'              => $this->code,
-                'main_account_id'   => $this->main_account_id,
-                'partner_id'        => $this->partner_id,
+                'code'           => $this->code,
+                'shop_id'        => intval($this->shop_id),
+                'partner_id'     => intval($this->partner_id),
             ]);
-
-            $this->setAccessToken($response['access_token']);
+            $this->access_token = $response['access_token'];
+            $this->refresh_token = $response['refresh_token'];
         } catch (\Exception $e) {
             $response = [
-                'code' => $e->getCode(),
-                'message' => $e->getMessage(),
+                'code'      => $e->getCode(),
+                'message'   => $e->getMessage(),
             ];
         }
 
@@ -56,6 +54,11 @@ class Configuration
         return $this->access_token;
     }
 
+    public function getRefreshToken()
+    {
+        return $this->refresh_token;
+    }
+
     public function getPartnerId()
     {
         return $this->partner_id;
@@ -63,7 +66,7 @@ class Configuration
 
     public function getKey()
     {
-        return $this->key;
+        return $this->key ?? config('shopee.key');
     }
 
     public function getRedirect()
@@ -89,6 +92,11 @@ class Configuration
     public function setAccessToken($access_token): void
     {
         $this->access_token = $access_token;
+    }
+
+    public function setRefreshToken($refresh_token): void
+    {
+        $this->refresh_token = $refresh_token;
     }
 
     public function setPartnerId($partner_id): void

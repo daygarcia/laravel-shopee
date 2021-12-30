@@ -10,6 +10,7 @@ class Signature
     private $key;
     private $path;
     private $timestamp;
+    private $signature;
     private $base_path = '/api/v2/';
 
     public function __construct($partner_id, $key, $path)
@@ -25,17 +26,18 @@ class Signature
     public function signRequest()
     {
         $partner_id = $this->partner_id;
-        $secret_key = $this->key;
+        $key = $this->key;
         $path = $this->path;
         $base_str = "{$partner_id}{$path}{$this->timestamp}";
-        $signature = hash_hmac('sha256', $base_str, $secret_key);
 
-        return $signature;
+        $this->signature = hash_hmac('sha256', $base_str, $key);
+
+        return $this->signature;
     }
 
-    public function setTime($time)
+    public function setTime($timestamp)
     {
-        $this->time = $time;
+        $this->timestamp = $timestamp;
     }
 
     public function setPath($path)
@@ -67,7 +69,7 @@ class Signature
     {
         $query = http_build_query([
             'partner_id' => $this->partner_id,
-            'timestamp' => $this->time,
+            'timestamp' => $this->timestamp,
             'sign' => $this->signature,
         ]);
 

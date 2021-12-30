@@ -16,9 +16,8 @@ return [
     'partner_id'    => env('SHOPEE_PARTNER_ID'),
     'key'           => env('SHOPEE_KEY'),
     'redirect'      => 'https://500b-177-95-229-183.ngrok.io/shopee/callback',
-    'site_id'       => env('SHOPEE_SITE_ID'),
+    'shop_id'       => env('SHOPEE_SHOP_ID'),
     'sandbox'       => env('SHOPEE_SANDBOX', true),
-    'language'      => 'pt-br',
     'host' => [
         'production'  => 'https://partner.shopeemobile.com',
         'sandbox'     => 'https://partner.test-stable.shopeemobile.com',
