@@ -11,7 +11,7 @@ class Api
 {
     public function get(Configuration $configuration, string $path, array $query = null): array
     {
-        $response = Http::withToken($configuration->getAccessToken())->get($this->getSignedUrl($configuration, $path), $query)->throw()->json();
+        $response = Http::withToken($configuration->getAccessToken())->get($this->getSignedUrl($configuration, $path) . http_build_query($query))->throw()->json();
         if (isset($response['error'])) {
             throw new \Exception($response['error']['message'], 500);
         }
