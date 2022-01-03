@@ -25,18 +25,38 @@ class Configuration
         $this->code = $config['code'] ?? null;
         $this->shop_id = $config['shop_id'] ?? config('shopee.shop_id');
         $this->access_token = $config['access_token'] ?? null;
+        $this->refresh_token = $config['refresh_token'] ?? null;
 
-        empty($this->access_token) ? $this->authorize() : null;
+        !empty($this->access_token) ? null : $this->getFirstAccessTokenUsingCode();
+        !empty($this->refresh_token) ? $this->getAccessTokenUsingRefreshToken() : null;
     }
 
-    public function authorize(): array
+    public function getFirstAccessTokenUsingCode(): array
+    {
+
+        $body = [
+            'code'           => $this->code,
+            'shop_id'        => intval($this->shop_id),
+            'partner_id'     => intval($this->partner_id),
+        ];
+
+        return $this->sendRequest($body);
+    }
+
+    public function getAccessTokenUsingRefreshToken(): array
+    {
+        $body = [
+            'refresh_token'  => $this->refresh_token,
+            'shop_id'        => intval($this->shop_id),
+            'partner_id'     => intval($this->partner_id),
+        ];
+
+        return $this->sendRequest($body);
+    }
+
+    public function sendRequest(array $body): array
     {
         try {
-            $body = [
-                'code'           => $this->code,
-                'shop_id'        => intval($this->shop_id),
-                'partner_id'     => intval($this->partner_id),
-            ];
             $authentication = new Authentication();
             $response = $authentication->authenticate(
                 $this,
