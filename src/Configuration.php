@@ -57,22 +57,23 @@ class Configuration
 
     public function sendRequest(string $path, array $body): array
     {
-        try {
-            $authentication = new Authentication();
-            $response = $authentication->authenticate(
-                $this,
-                $path,
-                $body
-            );
+        // try {
+        $authentication = new Authentication();
+        $response = $authentication->authenticate(
+            $this,
+            $path,
+            $body
+        );
+        // dd($response);
 
-            $this->access_token = $response['access_token'];
-            $this->refresh_token = $response['refresh_token'];
-        } catch (\Exception $e) {
-            $response = [
-                'code'      => $e->getCode(),
-                'message'   => $e->getMessage(),
-            ];
-        }
+        $this->access_token = $response['access_token'];
+        $this->refresh_token = $response['refresh_token'];
+        /* } catch (\Exception $e) {
+                $response = [
+                    'code'      => $e->getCode(),
+                    'message'   => $e->getMessage(),
+                ];
+            } */
 
         return $response;
     }
