@@ -28,8 +28,8 @@ class Configuration
         $this->access_token = $config['access_token'] ?? null;
         $this->refresh_token = $config['refresh_token'] ?? null;
 
-        !empty($this->code) ? $this->getFirstAccessTokenUsingCode() : null;
-        !empty($this->refresh_token) ? $this->getAccessTokenUsingRefreshToken() : null;
+        if (!empty($this->code)) return $this->getFirstAccessTokenUsingCode();
+        if (!empty($this->refresh_token)) return $this->getAccessTokenUsingRefreshToken();
     }
 
     public function getFirstAccessTokenUsingCode(): array
