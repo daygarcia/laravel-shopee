@@ -64,7 +64,6 @@ class Configuration
                 $path,
                 $body
             );
-            dd($response);
 
             $this->access_token = $response['access_token'];
             $this->refresh_token = $response['refresh_token'];
