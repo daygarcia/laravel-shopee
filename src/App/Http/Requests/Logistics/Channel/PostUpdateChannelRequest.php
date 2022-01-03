@@ -13,7 +13,7 @@ class PostUpdateChannelRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,9 +25,9 @@ class PostUpdateChannelRequest extends FormRequest
     {
         return [
             'logistics_channel_id' => 'required|integer',
-            'enabled'              => 'required|boolean',
-            'preferred'            => 'required|boolean',
-            'cod_enabled'          => 'required|boolean',
+            'enabled'              => 'nullable|boolean',
+            'preferred'            => 'nullable|boolean',
+            'cod_enabled'          => 'nullable|boolean',
         ];
     }
 }
