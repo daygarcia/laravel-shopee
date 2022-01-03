@@ -13,7 +13,7 @@ class BrandApi extends Api
         $this->configuration = $configuration;
     }
 
-    public function getBrands(int $category_id, int $page_size = 10, int $status = 1, int $offset = 0, string $language): array
+    public function getBrands(int $category_id, int $page_size = 10, int $status = 1, int $offset = 0, string $language = null): array
     {
         $query = [
             'page_size'     => $page_size,
