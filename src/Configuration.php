@@ -15,7 +15,8 @@ class Configuration
     private $code;
     private $shop_id;
     private $refresh_token;
-    private $auth_path = 'auth/token/get/';
+    private $token_path = 'auth/token/get/';
+    private $access_token_path = 'auth/access_token/get/';
 
     public function __construct(array $config)
     {
@@ -27,7 +28,7 @@ class Configuration
         $this->access_token = $config['access_token'] ?? null;
         $this->refresh_token = $config['refresh_token'] ?? null;
 
-        !empty($this->access_token) ? null : $this->getFirstAccessTokenUsingCode();
+        !empty($this->code) ? $this->getFirstAccessTokenUsingCode() : null;
         !empty($this->refresh_token) ? $this->getAccessTokenUsingRefreshToken() : null;
     }
 
@@ -40,7 +41,7 @@ class Configuration
             'partner_id'     => intval($this->partner_id),
         ];
 
-        return $this->sendRequest($body);
+        return $this->sendRequest($this->token_path, $body);
     }
 
     public function getAccessTokenUsingRefreshToken(): array
@@ -51,18 +52,19 @@ class Configuration
             'partner_id'     => intval($this->partner_id),
         ];
 
-        return $this->sendRequest($body);
+        return $this->sendRequest($this->access_token_path, $body);
     }
 
-    public function sendRequest(array $body): array
+    public function sendRequest(string $path, array $body): array
     {
         try {
             $authentication = new Authentication();
             $response = $authentication->authenticate(
                 $this,
-                $this->auth_path,
+                $path,
                 $body
             );
+            dd($response);
 
             $this->access_token = $response['access_token'];
             $this->refresh_token = $response['refresh_token'];
