@@ -17,6 +17,7 @@ class Configuration
     private $refresh_token;
     private $token_path = 'auth/token/get/';
     private $access_token_path = 'auth/access_token/get/';
+    private $authorization_path = 'shop/auth_partner?partner_id';
 
     public function __construct(array $config)
     {
@@ -30,6 +31,13 @@ class Configuration
 
         if (!empty($this->code)) return $this->getFirstAccessTokenUsingCode();
         if (!empty($this->refresh_token)) return $this->getAccessTokenUsingRefreshToken();
+    }
+
+    public function getAuthorizationUrl(): string
+    {
+        $authorization = new Authorization();
+
+        return $authorization->getAuthorizationUrl($this, $this->authorization_path, $this->redirect);
     }
 
     public function getFirstAccessTokenUsingCode(): array
