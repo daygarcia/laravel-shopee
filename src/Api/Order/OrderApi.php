@@ -14,7 +14,7 @@ class OrderApi extends Api
         $this->configuration = $configuration;
     }
 
-    public function getOrders(string $time_range_field = null, int $time_from = null, int $time_to = null, int $page_size = null, string $cursor = null, string $order_status = null, string $response_optional_fields): array
+    public function getOrders(string $time_range_field = null, int $time_from = null, int $time_to = null, int $page_size = null, string $cursor = null, string $order_status = null, string $response_optional_fields = null): array
     {
         $query = [
             'time_range_field' => $time_range_field ?? 'create_time',
