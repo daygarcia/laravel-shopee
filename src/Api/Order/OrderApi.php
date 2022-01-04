@@ -8,18 +8,19 @@ use LaravelShopee\Configuration;
 
 class OrderApi extends Api
 {
+    private const FIVE_DAYS = 432000;
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
     }
 
-    public function getOrders(string $time_range_field, int $time_from, int $time_to, int $page_size, string $cursor = null, string $order_status, string $response_optional_fields): array
+    public function getOrders(string $time_range_field = null, int $time_from = null, int $time_to = null, int $page_size = null, string $cursor = null, string $order_status, string $response_optional_fields): array
     {
         $query = [
-            'time_range_field' => $time_range_field,
-            'time_from' => $time_from,
-            'time_to' => $time_to,
-            'page_size' => $page_size,
+            'time_range_field' => $time_range_field ?? 'create_time',
+            'time_from' => $time_from ?? (time() - self::FIVE_DAYS),
+            'time_to' => $time_to ?? time(),
+            'page_size' => $page_size ?? 20,
             'cursor' => $cursor,
             'order_status' => $order_status,
             'response_optional_fields' => $response_optional_fields,

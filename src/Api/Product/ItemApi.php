@@ -19,12 +19,12 @@ class ItemApi extends Api
         return $this->get($this->configuration, $path);
     }
 
-    public function getItems(int $offset = 1, int $page_size = 20, string $item_status = 'NORMAL', string $update_time_from = null, string $update_time_to = null): array
+    public function getItems(int $offset = null, int $page_size = null, string $item_status = null, string $update_time_from = null, string $update_time_to = null): array
     {
         $query = [
-            'offset'            => $offset,
-            'page_size'         => $page_size,
-            'item_status'       => $item_status,
+            'offset'            => $offset ?? 1,
+            'page_size'         => $page_size ?? 20,
+            'item_status'       => $item_status ?? 'NORMAL',
             'update_time_from'  => $update_time_from,
             'update_time_to'    => $update_time_to,
         ];
