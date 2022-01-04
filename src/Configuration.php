@@ -17,7 +17,7 @@ class Configuration
     private $refresh_token;
     private $token_path = 'auth/token/get/';
     private $access_token_path = 'auth/access_token/get/';
-    private $authorization_path = 'shop/auth_partner?partner_id';
+    private $authorization_path = 'shop/auth_partner';
 
     public function __construct(array $config)
     {
@@ -65,23 +65,22 @@ class Configuration
 
     public function sendRequest(string $path, array $body): array
     {
-        // try {
-        $authentication = new Authentication();
-        $response = $authentication->authenticate(
-            $this,
-            $path,
-            $body
-        );
-        // dd($response);
+        try {
+            $authentication = new Authentication();
+            $response = $authentication->authenticate(
+                $this,
+                $path,
+                $body
+            );
 
-        $this->access_token = $response['access_token'];
-        $this->refresh_token = $response['refresh_token'];
-        /* } catch (\Exception $e) {
-                $response = [
-                    'code'      => $e->getCode(),
-                    'message'   => $e->getMessage(),
-                ];
-            } */
+            $this->access_token = $response['access_token'];
+            $this->refresh_token = $response['refresh_token'];
+        } catch (\Exception $e) {
+            $response = [
+                'code'      => $e->getCode(),
+                'message'   => $e->getMessage(),
+            ];
+        }
 
         return $response;
     }
