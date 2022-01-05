@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LaravelShopee\Api\Return;
+namespace LaravelShopee\Api;
 
 use LaravelShopee\Api;
 use LaravelShopee\Configuration;

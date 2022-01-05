@@ -1,16 +1,23 @@
 <?php
 
-namespace LaravelShopee\Api\MediaSpace;
+
+namespace LaravelShopee\Api;
 
 use Illuminate\Http\UploadedFile;
 use LaravelShopee\Api;
 use LaravelShopee\Configuration;
 
-class VideoApi extends Api
+class MediaSpaceApi extends Api
 {
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
+    }
+
+    public function uploadImage(UploadedFile $image): array
+    {
+        $path = 'media_space/upload_image';
+        return $this->upload($this->configuration, $path, $image);
     }
 
     public function initVideoUpload(array $data): array

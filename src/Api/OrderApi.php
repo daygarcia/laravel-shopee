@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LaravelShopee\Api\Order;
+namespace LaravelShopee\Api;
 
 use LaravelShopee\Api;
 use LaravelShopee\Configuration;

@@ -4,7 +4,7 @@ namespace App\Http\Requests\LaravelShopee\Product\SizeChart;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostStoreImageRequest extends FormRequest
+class PostStoreSizeChartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

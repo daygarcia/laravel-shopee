@@ -59,11 +59,11 @@ class Api
         return $response;
     }
 
-    public function download(Configuration $configuration, string $path)
+    public function download(Configuration $configuration, string $path, array $body)
     {
         $response = Http::withToken($configuration->getAccessToken())->withHeaders([
             'Content-Type' => 'text/plain',
-        ])->get($this->getSignedUrl($configuration, $path))->body();
+        ])->post($this->getSignedUrl($configuration, $path), $body)->body();
         if (!empty($response['error'])) {
             throw new \Exception($response['error'] . $response['message'], 500);
         }
