@@ -43,13 +43,13 @@ class MediaSpaceApi extends Api
         $query = [
             'video_upload_id' => $video_upload_id,
         ];
-        $path = 'mediaspace/complete_video_upload';
+        $path = 'mediaspace/get_video_upload_result';
         return $this->get($this->configuration, $path, $query);
     }
 
     public function cancelVideoUpload(array $data): array
     {
-        $path = 'mediaspace/complete_video_upload';
+        $path = 'mediaspace/cancel_video_upload';
         return $this->get($this->configuration, $path, $data);
     }
 }

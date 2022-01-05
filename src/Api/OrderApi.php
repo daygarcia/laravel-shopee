@@ -14,7 +14,7 @@ class OrderApi extends Api
         $this->configuration = $configuration;
     }
 
-    public function getOrders(string $time_range_field = null, int $time_from = null, int $time_to = null, int $page_size = null, string $cursor = null, string $order_status = null, string $response_optional_fields = null): array
+    public function getOrderList(string $time_range_field = null, int $time_from = null, int $time_to = null, int $page_size = null, string $cursor = null, string $order_status = null, string $response_optional_fields = null): array
     {
         $query = [
             'time_range_field' => $time_range_field ?? 'create_time',
@@ -63,19 +63,19 @@ class OrderApi extends Api
         return $this->post($this->configuration, $path, $data);
     }
 
-    public function createOrderNote(array $data): array
+    public function setNote(array $data): array
     {
         $path = 'order/set_note';
         return $this->post($this->configuration, $path, $data);
     }
 
-    public function addInvoiceInfo(array $data): array
+    public function addInvoiceData(array $data): array
     {
         $path = 'order/add_invoice_data';
         return $this->post($this->configuration, $path, $data);
     }
 
-    public function getShippedOrders(int $page_size, string $cursor = null): array
+    public function getShipmentList(int $page_size, string $cursor = null): array
     {
         $query = [
             'page_size' => $page_size,

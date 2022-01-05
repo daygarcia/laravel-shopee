@@ -23,7 +23,7 @@ class ProductApi extends Api
         return $this->get($this->configuration, $path, $query);
     }
 
-    public function getAttributeRecommend(string $item_name = null, int $cover_image_id = null, int $category_id = null): array
+    public function getRecommendAttribute(string $item_name = null, int $cover_image_id = null, int $category_id = null): array
     {
         $query = [
             'item_name' => $item_name,
@@ -35,7 +35,7 @@ class ProductApi extends Api
         return $this->get($this->configuration, $path, $query);
     }
 
-    public function getBrands(int $category_id, int $page_size = 10, int $status = 1, int $offset = 0, string $language = null): array
+    public function getBrandList(int $category_id, int $page_size = 10, int $status = 1, int $offset = 0, string $language = null): array
     {
         $query = [
             'page_size'     => $page_size,
@@ -54,7 +54,7 @@ class ProductApi extends Api
         return $this->post($this->configuration, $path, $data);
     }
 
-    public function getCategories(string $language = null): array
+    public function getCategory(string $language = null): array
     {
         $query = [
             'language' => $language ?? config('shopee.language'),
@@ -63,7 +63,7 @@ class ProductApi extends Api
         return $this->get($this->configuration, $path, $query);
     }
 
-    public function getCategoryRecommendByItemName(string $item_name): array
+    public function categoryRecommend(string $item_name): array
     {
         $query = [
             'item_name ' => $item_name,
@@ -105,7 +105,7 @@ class ProductApi extends Api
         return $this->get($this->configuration, $path);
     }
 
-    public function getItems(int $offset = null, int $page_size = null, string $item_status = null, string $update_time_from = null, string $update_time_to = null): array
+    public function getItemList(int $offset = null, int $page_size = null, string $item_status = null, string $update_time_from = null, string $update_time_to = null): array
     {
         $query = [
             'offset'            => $offset ?? 1,
@@ -171,7 +171,7 @@ class ProductApi extends Api
         return $this->get($this->configuration, $path, $query);
     }
 
-    public function getBoostedItems(): array
+    public function getBoostedList(): array
     {
         $path = 'product/get_boosted_list';
         return $this->get($this->configuration, $path);
@@ -200,11 +200,11 @@ class ProductApi extends Api
         $query = [
             'item_id' => $item_id,
         ];
-        $path = 'product/get_item_limit';
+        $path = 'product/get_item_models';
         return $this->get($this->configuration, $path, $query);
     }
 
-    public function createModel(array $data): array
+    public function addModel(array $data): array
     {
         $path = 'product/add_model';
         return $this->post($this->configuration, $path, $data);
@@ -228,7 +228,7 @@ class ProductApi extends Api
         return $this->post($this->configuration, $path, $data);
     }
 
-    public function getSupportedSizeChart(int $category_id): array
+    public function supportSizeChart(int $category_id): array
     {
         $query = [
             'category_id' => $category_id,
@@ -237,7 +237,7 @@ class ProductApi extends Api
         return $this->get($this->configuration, $path, $query);
     }
 
-    public function updateSizeChartItemImage(array $data): array
+    public function updateSizeChart(array $data): array
     {
         $path = 'product/update_size_chart';
         return $this->post($this->configuration, $path, $data);
@@ -249,7 +249,7 @@ class ProductApi extends Api
         return $this->post($this->configuration, $path, $data);
     }
 
-    public function createTierVariation(array $data): array
+    public function initTierVariation(array $data): array
     {
         $path = 'product/init_tier_variation';
         return $this->post($this->configuration, $path, $data);
