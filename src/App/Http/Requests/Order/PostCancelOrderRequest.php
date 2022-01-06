@@ -25,7 +25,7 @@ class PostCancelOrderRequest extends FormRequest
     {
         return [
             'cancel_reason' => 'OUT_OF_STOCK,CUSTOMER_REQUEST,UNDELIVERABLE_AREA,COD_NOT_SUPPORTED',
-            'item_list' => 'required|array',
+            'item_list' => 'required_if:cancel_reason,OUT_OF_STOCK|array',
             'item_list.*.item_id'  => 'required|integer',
             'item_list.*.model_id' => 'required|integer',
         ];
